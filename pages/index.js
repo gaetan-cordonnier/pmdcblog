@@ -8,6 +8,7 @@ import { client } from "../prismic-configuration";
 import { CpForm } from "../components/cpForm";
 
 export default function Blog({ posts }) {
+  
   const urbanPost = posts.results
     .filter((infoPost) => infoPost.data.category.slug === "urbanisme")
     .slice(0, 3);
@@ -15,7 +16,7 @@ export default function Blog({ posts }) {
   const amenagementPost = posts.results
     .filter((infoPost) => infoPost.data.category.slug === "amenagement")
     .slice(0, 3);
-
+  
   return (
     <>
       <Reset />
@@ -59,6 +60,5 @@ export async function getServerSideProps() {
     Prismic.Predicates.at("document.type", "post"),
     { orderings: "[my.post.date desc]" }
   );
-
   return { props: { posts } };
 }

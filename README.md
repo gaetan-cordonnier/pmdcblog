@@ -1,16 +1,10 @@
-# Code for Prismic+Next+Now Serverless guide
+# Blog With NextJS and Prismic CMS
 
-Follow along with the instructions in the Zeit guide to build a minimalist blog using Prismic as a CMS with Next.js deployed in Now as a serverless app.
+## Installation
+
+Complete .env file with correct link prismic.
+Use 'npmi' and 'npm run dev' to start.
 
 ### Install instructions
 
 Use the Prismic CLI to copy the code and create the associated Prismic repository
-
-```bash
-yarn global add prismic-cli
-prismic theme https://github.com/raulg/prismic-next-blog
-```
-
-### Finished example
-
-If after following the guide all the way to the end you want to compare your project to a finished version, check out the `finished` branch for the completed code.

@@ -1,17 +1,22 @@
 import Prismic from "prismic-javascript";
 import Head from "next/head";
-import Link from "next/link";
 import { Reset } from "styled-reset";
 import Layout from "../layout";
 import { Category, Card } from "../styles/style.js";
 import { RichText, Date } from "prismic-reactjs";
-import { client, linkResolver, hrefResolver } from "../prismic-configuration";
+import { client } from "../prismic-configuration";
 import { CpForm } from "../components/cpForm";
 
-export default function Blog({ category, posts }) {
-  console.log(category);
-  console.log(posts);
+export default function Blog({ posts }) {
+  
+  const urbanPost = posts.results
+    .filter((infoPost) => infoPost.data.category.slug === "urbanisme")
+    .slice(0, 3);
 
+  const amenagementPost = posts.results
+    .filter((infoPost) => infoPost.data.category.slug === "amenagement")
+    .slice(0, 3);
+  
   return (
     <>
       <Reset />
@@ -25,50 +30,22 @@ export default function Blog({ category, posts }) {
       </Head>
       <Layout>
         <Category>
-          {/* <img src={category.data.image.url} alt="avatar image" /> */}
-          {/* <h1>{RichText.asText(category.data.headline)}</h1>
-			<p>{RichText.asText(category.data.content)}</p> */}
-          <Card>
-            <ul>
-              {posts.results.map((post) => (
-                <li key={post.uid}>
-                  {RichText.render(post.data.title)}
-                  <Link
-                    href={hrefResolver(post)}
-                    as={linkResolver(post)}
-                    passHref
-                  >
-                    <a>{RichText.render(post.data.title)}</a>
-                    {/* <img src={post.data.href} alt="image" /> */}
-                  </Link>
-                  <span>{Date(post.data.date).toString()}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
+          {urbanPost.map((dataPost, index) => (
+            <Card key={dataPost.uid}>
+              <h4>{RichText.render(dataPost.data.title)}</h4>
+              <img src={dataPost.data.coverimage.url} alt="img" />
+              <time>{Date(dataPost.data.date).toString()}</time>
+            </Card>
+          ))}
         </Category>
         <Category>
-          {/* <img src={category.data.image.url} alt="avatar image" /> */}
-          {/* <h1>{RichText.asText(category.data.headline)}</h1>
-			<p>{RichText.asText(category.data.content)}</p> */}
-          <Card>
-            <ul>
-              {posts.results.map((post) => (
-                <li key={post.uid}>
-                  {RichText.render(post.data.title)}
-                  <Link
-                    href={hrefResolver(post)}
-                    as={linkResolver(post)}
-                    passHref
-                  >
-                    <a>{RichText.render(post.data.title)}</a>
-                    {/* <img src={post.data.href} alt="image" /> */}
-                  </Link>
-                  <span>{Date(post.data.date).toString()}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
+          {amenagementPost.map((dataPost, index) => (
+            <Card key={dataPost.uid}>
+              <h4>{RichText.render(dataPost.data.title)}</h4>
+              <img src={dataPost.data.coverimage.url} alt="img" />
+              <time>{Date(dataPost.data.date).toString()}</time>
+            </Card>
+          ))}
         </Category>
         <aside>
           <CpForm />
@@ -79,11 +56,9 @@ export default function Blog({ category, posts }) {
 }
 
 export async function getServerSideProps() {
-  const category = await client.getSingle("category");
   const posts = await client.query(
     Prismic.Predicates.at("document.type", "post"),
     { orderings: "[my.post.date desc]" }
   );
-
-  return { props: { category, posts } };
+  return { props: { posts } };
 }

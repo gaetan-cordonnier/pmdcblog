@@ -10,7 +10,6 @@ export const client = Prismic.client(REF_API_URL, {
 });
 
 // Link resolution rules
-
 export const linkResolver = (doc) => {
   if (doc.type === "post") {
     return `/blog/${doc.uid}`;
@@ -25,6 +24,3 @@ export const hrefResolver = (doc) => {
   }
   return "/";
 };
-
-// -- Client method to query Prismic
-// Connects to the given repository to facilitate data queries

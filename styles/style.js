@@ -75,7 +75,7 @@ export const Category = styled.figure`
 	flex-direction: row;
 	align-items: start;
 	justify-content: flex-start;
-	height: 25vh;
+	height: 28vh;
 	overflow: hidden;
 `;
 
